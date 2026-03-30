@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        @page {
+            size: A4;
+            margin: 2cm;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            color: #333;
+            line-height: 1.6;
+        }
+        .header {
+            text-align: center;
+            border-bottom: 2px solid #2563eb;
+            margin-bottom: 30px;
+            padding-bottom: 10px;
+        }
+        .school-name {
+            font-size: 24px;
+            font-weight: bold;
+            color: #1e40af;
+            text-transform: uppercase;
+        }
+        .report-title {
+            font-size: 20px;
+            margin-top: 5px;
+        }
+        .student-info {
+            margin-bottom: 30px;
+            width: 100%;
+        }
+        .student-info td {
+            padding: 5px;
+        }
+        .student-info .label {
+            font-weight: bold;
+            width: 120px;
+        }
+        table.grades-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+        table.grades-table th, table.grades-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        table.grades-table th {
+            background-color: #f8fafc;
+            font-weight: bold;
+        }
+        .summary {
+            float: right;
+            width: 250px;
+            border-top: 2px solid #2563eb;
+            padding-top: 10px;
+        }
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+        .summary-label {
+            font-weight: bold;
+        }
+        .footer {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            text-align: center;
+            font-size: 10px;
+            color: #666;
+            border-top: 1px solid #eee;
+            padding-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="school-name">{{ school.name }}</div>
+        <div class="report-title">OFFICIAL REPORT CARD</div>
+        <div>{{ term.name }}</div>
+    </div>
+
+    <table class="student-info">
+        <tr>
+            <td class="label">Student Name:</td>
+            <td>{{ student.full_name }}</td>
+            <td class="label">Grade:</td>
+            <td>{{ student.grade }}</td>
+        </tr>
+        <tr>
+            <td class="label">Section:</td>
+            <td>{{ student.section }}</td>
+            <td class="label">Date:</td>
+            <td>{% now "F j, Y" %}</td>
+        </tr>
+    </table>
+
+    <table class="grades-table">
+        <thead>
+            <tr>
+                <th>Subject</th>
+                <th>Score</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for grade in grades %}
+            <tr>
+                <td>{{ grade.subject.name }}</td>
+                <td>{{ grade.score }}</td>
+                <td>
+                    {% if grade.score >= 50 %}
+                        <span style="color: green;">Pass</span>
+                    {% else %}
+                        <span style="color: red;">Fail</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="summary">
+        <table>
+            <tr>
+                <td style="font-weight: bold;">Total Score:</td>
+                <td style="text-align: right;">{{ total_score }}</td>
+            </tr>
+            <tr>
+                <td style="font-weight: bold;">Average:</td>
+                <td style="text-align: right;">{{ average_score }}%</td>
+            </tr>
+            <tr>
+                <td style="font-weight: bold;">Subjects:</td>
+                <td style="text-align: right;">{{ subject_count }}</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="footer">
+        This is a computer-generated report card for TemariLink School Management System.
+    </div>
+</body>
+</html>
