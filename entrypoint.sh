@@ -1,14 +1,14 @@
 #!/bin/sh
 
-if [ "$DB_NAME" = "postgres" ]
+if [ -n "$DB_NAME" ]
 then
-    echo "Waiting for postgres..."
+    echo "Waiting for database..."
 
-    while ! nc -z $DB_HOST 5432; do
+    while ! nc -z $DB_HOST ${DB_PORT:-5432}; do
       sleep 0.1
     done
 
-    echo "PostgreSQL started"
+    echo "Database started"
 fi
 
 # Apply migrations
